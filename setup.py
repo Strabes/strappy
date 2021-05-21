@@ -4,9 +4,9 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 # Packages required for this module to be executed
-def list_reqs(fname='requirements.txt'):
-    with open(fname) as fd:
-        return fd.read().splitlines()
+# def list_reqs(fname='requirements.txt'):
+#     with open(fname) as fd:
+#         return fd.read().splitlines()
 
 setuptools.setup(
     name="strappy",
@@ -25,6 +25,6 @@ setuptools.setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
     ],
-    install_requires = list_reqs(),
+    #install_requires = list_reqs(),
     python_requires='>=3.6',
 )

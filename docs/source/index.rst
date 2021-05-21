@@ -1,5 +1,5 @@
 .. strappy documentation master file, created by
-   sphinx-quickstart on Fri May 21 12:23:25 2021.
+   sphinx-quickstart on Fri May 21 12:55:08 2021.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 

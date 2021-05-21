@@ -18,7 +18,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Strabes/strappy",
-    download_url = "https://github.com/Strabes/strappy/archive/v_002.tar.gz",
+    download_url = "https://github.com/Strabes/strappy/archive/refs/tags/v0.0.2.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

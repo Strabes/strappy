@@ -10,7 +10,7 @@ def list_reqs(fname='requirements.txt'):
 
 setuptools.setup(
     name="strappy",
-    version="0.0.2",
+    version="0.0.3",
     author="Greg Strabel",
     author_email="gregory.strabel@gmail.com",
     license="BSD 3",
@@ -18,7 +18,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/Strabes/strappy",
-    download_url = "https://github.com/Strabes/strappy/archive/refs/tags/v0.0.2.tar.gz",
+    download_url = "https://github.com/Strabes/strappy/archive/refs/tags/v0.0.3.tar.gz",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",

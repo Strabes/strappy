@@ -1,0 +1,7 @@
+[BASIC]
+
+good-names=i,j,k,x,y,z
+
+variable-rgx=[a-z_][a-z0-9_]{,30}$
+
+argument-rgx=[A-Za-z_][a-z0-9_]{,30}$

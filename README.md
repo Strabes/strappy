@@ -1,1 +1,15 @@
-# strappy
+# <img alt="strappy" src="Strappy Logo.png" height="250">
+
+![Python package](https://github.com/Strabes/strappy/workflows/Python%20package/badge.svg?branch=master)
+[![codecov](https://codecov.io/gh/Strabes/strappy/branch/master/graph/badge.svg?token=I0JBFSYS3U)](https://codecov.io/gh/Strabes/strappy)
+
+
+Utility package for data science
+
+See the package site [here](https://strappy.readthedocs.io/en/latest/)
+
+Install from github with:
+
+```
+$ pip install git+https://github.com/Strabes/strappy.git
+```

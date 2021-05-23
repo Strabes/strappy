@@ -3,15 +3,37 @@ import pandas as pd
 
 
 def space_ticks(ax,max_ticks=5):
-    """"""
+    """
+    Space ticks out on x axis
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+
+    max_ticks : int
+
+    Returns
+    -------
+    None
+    """
     ticks = ax.get_xticks().tolist()
     labels = ax.get_xticklabels()
     l_space = int(len(labels)/max_ticks)
     ax.set_xticks(ticks[0::(l_space+1)])
     ax.set_xticklabels(labels[0::(l_space+1)])
 
-def fix_labels(ax, bbox_to_anchor=(1.2, 1.05),
+
+def fix_legend(ax, bbox_to_anchor=(1.2, 1.05),
         sub_pairs={"^\(Count, ":"","\)$":""}, title = ""):
+    """
+    Fix legend
+
+    Parameters
+    ----------
+    ax : matplotlib.axes.Axes
+
+    bbox_to_anchor : tuple 
+    """
     handles, labels = ax.get_legend_handles_labels()
     labels = [fix_strings(i,sub_pairs=sub_pairs) for i in labels]
     ax.legend(handles, labels, bbox_to_anchor=bbox_to_anchor, title = title)

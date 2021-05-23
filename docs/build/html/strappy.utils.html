@@ -42,23 +42,355 @@
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="strappy-utils-binners-module">
-<h2>strappy.utils.binners module<a class="headerlink" href="#strappy-utils-binners-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.utils.binners">
+<span id="strappy-utils-binners-module"></span><h2>strappy.utils.binners module<a class="headerlink" href="#module-strappy.utils.binners" title="Permalink to this headline">¶</a></h2>
+<p>Binner functions for grouping numeric variables into
+bins</p>
+<dl class="py function">
+<dt id="strappy.utils.binners.binner_df">
+<code class="sig-prename descclassname">strappy.utils.binners.</code><code class="sig-name descname">binner_df</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">new_col</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">fill_nan</span><span class="o">=</span><span class="default_value">'MISSING'</span></em>, <em class="sig-param"><span class="n">max_levels</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.binners.binner_df" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bin a numeric variable</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – </p></li>
+<li><p><strong>x</strong> (<em>str</em>) – The name of the numeric variable in ‘df’ to
+construct bins from</p></li>
+<li><p><strong>new_col</strong> (<em>str</em>) – Use as the name of the binned variable</p></li>
+<li><p><strong>fill_nan</strong> (<em>str</em>) – Value to fill nans with</p></li>
+<li><p><strong>max_levels</strong> (<em>int</em>) – Maximum number of bins to create from ‘x’</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.DataFrame including new binned column</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.binners.cutpoints">
+<code class="sig-prename descclassname">strappy.utils.binners.</code><code class="sig-name descname">cutpoints</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">qntl_cutoff</span><span class="o">=</span><span class="default_value">[0.025, 0.975]</span></em>, <em class="sig-param"><span class="n">cuts</span><span class="o">=</span><span class="default_value">'linear'</span></em>, <em class="sig-param"><span class="n">ncuts</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">sig_fig</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.binners.cutpoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to return cut points and bin labels for a numeric 1-D array</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> (<em>numpy 1-D array</em>) – numeric 1-D array</p></li>
+<li><p><strong>qntl_cutoff</strong> (<em>list</em>) – list of length two with lower and upper quantile cutoffs:
+To prevent extreme outliers from influencing the cutpoints
+for the bins, construct the cutpoints between the qntl_cutoff[0] quantile
+and the qntl_cutoff[1] quantile. If qntl_cutoff is None then do not
+ignore outliers</p></li>
+<li><p><strong>cuts</strong> (<em>str</em>) – one of: ‘linear’, ‘log’, ‘logp1’, ‘quantile’
+‘linear’ : equally spaced cutpoints
+‘log’ : logarithmically spaced cutpoints
+‘logp1’ : logarithmically spaced cutpoints after adding 1
+‘quantile’ : cutpoints corresponding to equally spaced quantiles</p></li>
+<li><p><strong>ncut</strong> (<em>int</em>) – number of cutpoints</p></li>
+<li><p><strong>sig_fig</strong> (<em>int</em>) – number of significant figures to display in the aesthetically
+printed bin labels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>c_final</strong> – final cut points</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy 1-D array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.binners.cutter">
+<code class="sig-prename descclassname">strappy.utils.binners.</code><code class="sig-name descname">cutter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">max_levels</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">point_mass_threshold</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">sig_fig</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.binners.cutter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Cut a numeric variable into bins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame</em>) – </p></li>
+<li><p><strong>x</strong> (<em>str</em>) – the name of the numeric variable in ‘df’ to construct
+bins from</p></li>
+<li><p><strong>max_levels</strong> (<em>int</em>) – maximum number of bins to create from ‘x’</p></li>
+<li><p><strong>point_mass_threshold</strong> (<em>float</em>) – Levels of ‘x’ with frequency greater than point_mass_threshold
+get their own bin</p></li>
+<li><p><strong>sig_fig</strong> (<em>int</em>) – Significant figures to use in binning</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>z</strong> – Categorical series of binned values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Series</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.binners.human_readable_num">
+<code class="sig-prename descclassname">strappy.utils.binners.</code><code class="sig-name descname">human_readable_num</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">number</span></em>, <em class="sig-param"><span class="n">sig_fig</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.binners.human_readable_num" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for making numbers aesthetically-pleasing</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>number</strong> (<em>float</em><em> or </em><em>int</em>) – A number to format</p></li>
+<li><p><strong>sig_fig</strong> (<em>int</em>) – Number of significant figures to print</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>z</strong> – number formatted as str</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="strappy-utils-dates-module">
-<h2>strappy.utils.dates module<a class="headerlink" href="#strappy-utils-dates-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.utils.dates">
+<span id="strappy-utils-dates-module"></span><h2>strappy.utils.dates module<a class="headerlink" href="#module-strappy.utils.dates" title="Permalink to this headline">¶</a></h2>
+<p>Date utilities</p>
+<dl class="py function">
+<dt id="strappy.utils.dates.bin_dates">
+<code class="sig-prename descclassname">strappy.utils.dates.</code><code class="sig-name descname">bin_dates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">d</span></em>, <em class="sig-param"><span class="n">bins</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">midpoints</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.dates.bin_dates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bin a 1d-array-like of datetimes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>d</strong> (<em>1D array-like of datetimes</em>) – </p></li>
+<li><p><strong>bins</strong> (<em>int</em><em> or </em><em>1D array-like of datetimes</em>) – </p></li>
+<li><p><strong>midpoints</strong> (<em>Boolean</em>) – if True, use midpoints of bins as labels
+if False, use bins from pandas.cuts as labels</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>pandas.Series of binned dates</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="strappy-utils-formatters-module">
-<h2>strappy.utils.formatters module<a class="headerlink" href="#strappy-utils-formatters-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.utils.formatters">
+<span id="strappy-utils-formatters-module"></span><h2>strappy.utils.formatters module<a class="headerlink" href="#module-strappy.utils.formatters" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="strappy.utils.formatters.datetime_tester">
+<code class="sig-prename descclassname">strappy.utils.formatters.</code><code class="sig-name descname">datetime_tester</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.formatters.datetime_tester" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test non-numeric columns in pandas.DateFrame</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.formatters.fix_legend">
+<code class="sig-prename descclassname">strappy.utils.formatters.</code><code class="sig-name descname">fix_legend</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">bbox_to_anchor</span><span class="o">=</span><span class="default_value">1.2, 1.05</span></em>, <em class="sig-param"><span class="n">sub_pairs</span><span class="o">=</span><span class="default_value">{'\\)$': '', '^\\(Count, ': ''}</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.formatters.fix_legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fix legend</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
+<li><p><strong>bbox_to_anchor</strong> (<em>tuple</em>) – </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.formatters.fix_strings">
+<code class="sig-prename descclassname">strappy.utils.formatters.</code><code class="sig-name descname">fix_strings</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">sub_pairs</span><span class="o">=</span><span class="default_value">{'\\)$': '', '^\\(Count, ': ''}</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.formatters.fix_strings" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.formatters.space_ticks">
+<code class="sig-prename descclassname">strappy.utils.formatters.</code><code class="sig-name descname">space_ticks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ax</span></em>, <em class="sig-param"><span class="n">max_ticks</span><span class="o">=</span><span class="default_value">5</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.formatters.space_ticks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Space ticks out on x axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ax</strong> (<em>matplotlib.axes.Axes</em>) – </p></li>
+<li><p><strong>max_ticks</strong> (<em>int</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
-<div class="section" id="strappy-utils-histograms-module">
-<h2>strappy.utils.histograms module<a class="headerlink" href="#strappy-utils-histograms-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.utils.histograms">
+<span id="strappy-utils-histograms-module"></span><h2>strappy.utils.histograms module<a class="headerlink" href="#module-strappy.utils.histograms" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="strappy.utils.histograms.categorical_heatmap">
+<code class="sig-prename descclassname">strappy.utils.histograms.</code><code class="sig-name descname">categorical_heatmap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">stat</span><span class="o">=</span><span class="default_value">'size'</span></em>, <em class="sig-param"><span class="n">fillna</span><span class="o">=</span><span class="default_value">'MISSING'</span></em>, <em class="sig-param"><span class="n">width_ratios</span><span class="o">=</span><span class="default_value">[3, 1]</span></em>, <em class="sig-param"><span class="n">height_ratios</span><span class="o">=</span><span class="default_value">[1, 3]</span></em>, <em class="sig-param"><span class="n">cmap</span><span class="o">=</span><span class="default_value">'hot'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.histograms.categorical_heatmap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for creating bivariate categorical heatmap</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas.DataFrame object</em>) – </p></li>
+<li><p><strong>x</strong> (<em>str</em>) – categorical variable in ‘df’ to plot along the x-axis</p></li>
+<li><p><strong>y</strong> (<em>str</em>) – categorical variable in ‘df’ to plot along the y-axis</p></li>
+<li><p><strong>stat</strong> (<em>str</em>) – aggregate function to apply to df after grouping by ‘x’ and ‘y’</p></li>
+<li><p><strong>fillna</strong> (<em>str</em>) – value to fill numpy NaNs with</p></li>
+<li><p><strong>width_ratios</strong> (<em>iterable of length 2</em>) – ratio of the width of the heatmap to the ‘y’ marginal plot</p></li>
+<li><p><strong>height_ratios</strong> (<em>iterable of length 2</em>) – ratio of the height of the ‘x’ marginal plot to the heatmap</p></li>
+<li><p><strong>cmap</strong> (<em>str</em>) – name of matplotlib registered colormap</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fig</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.histograms.categorical_histogram">
+<code class="sig-prename descclassname">strappy.utils.histograms.</code><code class="sig-name descname">categorical_histogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">line_columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_levels</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">oth_val</span><span class="o">=</span><span class="default_value">'_OTHER_'</span></em>, <em class="sig-param"><span class="n">stat</span><span class="o">=</span><span class="default_value">'mean'</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.histograms.categorical_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to create matplotlib histogram plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame object</em>) – </p></li>
+<li><p><strong>x</strong> (<em>the name of the categorical variable in 'df' to construct bins from</em>) – </p></li>
+<li><p><strong>line_columns</strong> (<em>optional list of other columns in 'df' on which to</em>) – calculate and plot ‘stat’</p></li>
+<li><p><strong>max_levels</strong> (<em>maximum number of bins to create from 'x' - the max_level</em>) – values of ‘x’ with the greatest record counts receive their own levels,
+all other levels are binned as ‘oth_val’</p></li>
+<li><p><strong>oth_val</strong> (<em>str used as value for levels with fewer record counts</em>) – </p></li>
+<li><p><strong>stat</strong> (<em>aggregate statistic to calculate on 'oth_columns' within</em>) – bins of ‘x’</p></li>
+<li><p><strong>normalize</strong> (<em>Boolean</em>) – If True, use percents instead of counts</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>p</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.histograms.numeric_histogram">
+<code class="sig-prename descclassname">strappy.utils.histograms.</code><code class="sig-name descname">numeric_histogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">line_columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_levels</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">stat</span><span class="o">=</span><span class="default_value">'mean'</span></em>, <em class="sig-param"><span class="n">min_levels</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.histograms.numeric_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to create matplotlib histogram plot</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame object</em>) – </p></li>
+<li><p><strong>x</strong> (<em>the name of the numeric variable in 'df' to construct bins from</em>) – </p></li>
+<li><p><strong>line_columns</strong> (<em>optional list of other columns in 'df' on which to</em>) – calculate and plot ‘stat’ within bins of ‘x’</p></li>
+<li><p><strong>max_levels</strong> (<em>maximum number of bins to create from 'x'</em>) – </p></li>
+<li><p><strong>stat</strong> (<em>aggregate statistic to calculate on 'oth_columns' within</em>) – bins of ‘x’</p></li>
+<li><p><strong>min_levels</strong> (<em>if 'x' has more than min_levels distinct level</em><em>,</em>) – induce binning</p></li>
+<li><p><strong>normalize</strong> (<em>Boolean</em>) – If True, transform counts to percents</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>p</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.histograms.plot_bar">
+<code class="sig-prename descclassname">strappy.utils.histograms.</code><code class="sig-name descname">plot_bar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">p</span></em>, <em class="sig-param"><span class="n">x</span><span class="o">=</span><span class="default_value">'x'</span></em>, <em class="sig-param"><span class="n">line_columns</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">normalize</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.histograms.plot_bar" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for creating a bar plot for categorical data.
+If input pandas DataFrame includes columns that should be plotted as
+lines, the names of these columns can be passed in ‘line_columns’
+By passing a matplotlib figure, ‘fig’, and axis object, ‘ax’,
+this function can add the plot to the provided axis</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>p</strong> (<em>pandas DataFrame object that contains:</em>) – x : the categorical variable to plot along the x-axis
+Count : the height of the bars
+line_columns : optional list of columns to plot as lines</p></li>
+<li><p><strong>x</strong> (<em>the categorical variable in 'df' to plot along the x-axis</em>) – </p></li>
+<li><p><strong>line_columns</strong> (<em>optional list of columns to plot as lines</em>) – </p></li>
+<li><p><strong>normalize</strong> (<em>Boolean</em>) – If True, convert counts to percents</p></li>
+<li><p><strong>**kwargs</strong> (<em>optional parameters:</em>) – fig : a matplotlib figure
+ax : a matplotlib axis object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>fig</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>a matplotlib figure</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.histograms.stacked_dates_histogram">
+<code class="sig-prename descclassname">strappy.utils.histograms.</code><code class="sig-name descname">stacked_dates_histogram</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">date_var</span></em>, <em class="sig-param"><span class="n">cat_var</span></em>, <em class="sig-param"><span class="n">ax</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">title</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bins</span><span class="o">=</span><span class="default_value">30</span></em>, <em class="sig-param"><span class="n">midpoints</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">stat</span><span class="o">=</span><span class="default_value">'count'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.histograms.stacked_dates_histogram" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="strappy-utils-stats-module">
-<h2>strappy.utils.stats module<a class="headerlink" href="#strappy-utils-stats-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.utils.stats">
+<span id="strappy-utils-stats-module"></span><h2>strappy.utils.stats module<a class="headerlink" href="#module-strappy.utils.stats" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="strappy.utils.stats.cramers_corrected_matrix">
+<code class="sig-prename descclassname">strappy.utils.stats.</code><code class="sig-name descname">cramers_corrected_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">reorder_cuthill_mckee</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.stats.cramers_corrected_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Cramers V statistic with bias correction for all
+combinations of columns in pandas DataFrame df</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>pandas DataFrame - all columns must be categorical</em>) – </p></li>
+<li><p><strong>reorder_cuthill_mckee</strong> (<em>boolean - whether to reorder to the columns</em>) – based on the reverse Cuthill McKee algorithm applied to the
+matrix of Cramers V statistics</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>Z</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>numpy array with Cramers V statistics</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.stats.cramers_corrected_stat">
+<code class="sig-prename descclassname">strappy.utils.stats.</code><code class="sig-name descname">cramers_corrected_stat</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">confusion_matrix</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.stats.cramers_corrected_stat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate Cramers V statistic for categorial-categorial association.
+Uses correction from Bergsma and Wicher,
+Journal of the Korean Statistical Society 42 (2013): 323-328</p>
+<p>See:
+<a class="reference external" href="https://stackoverflow.com/questions/20892799/">https://stackoverflow.com/questions/20892799/</a>
+using-pandas-calculate-cram%C3%A9rs-coefficient-matrix</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>confusion_matrix</strong> (<em>numpy confusion matrix</em>) – </p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>float</strong></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Cramer’s V statistic with bias correction</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="strappy.utils.stats.cramers_v">
+<code class="sig-prename descclassname">strappy.utils.stats.</code><code class="sig-name descname">cramers_v</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">x</span></em>, <em class="sig-param"><span class="n">y</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.utils.stats.cramers_v" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.utils">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-strappy.utils" title="Permalink to this headline">¶</a></h2>
 </div>
 </div>
 
@@ -73,12 +405,12 @@
   <ul>
 <li><a class="reference internal" href="#">strappy.utils package</a><ul>
 <li><a class="reference internal" href="#submodules">Submodules</a></li>
-<li><a class="reference internal" href="#strappy-utils-binners-module">strappy.utils.binners module</a></li>
-<li><a class="reference internal" href="#strappy-utils-dates-module">strappy.utils.dates module</a></li>
-<li><a class="reference internal" href="#strappy-utils-formatters-module">strappy.utils.formatters module</a></li>
-<li><a class="reference internal" href="#strappy-utils-histograms-module">strappy.utils.histograms module</a></li>
-<li><a class="reference internal" href="#strappy-utils-stats-module">strappy.utils.stats module</a></li>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-strappy.utils.binners">strappy.utils.binners module</a></li>
+<li><a class="reference internal" href="#module-strappy.utils.dates">strappy.utils.dates module</a></li>
+<li><a class="reference internal" href="#module-strappy.utils.formatters">strappy.utils.formatters module</a></li>
+<li><a class="reference internal" href="#module-strappy.utils.histograms">strappy.utils.histograms module</a></li>
+<li><a class="reference internal" href="#module-strappy.utils.stats">strappy.utils.stats module</a></li>
+<li><a class="reference internal" href="#module-strappy.utils">Module contents</a></li>
 </ul>
 </li>
 </ul>

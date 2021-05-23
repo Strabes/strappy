@@ -6,6 +6,9 @@
 Welcome to strappy's documentation!
 ===================================
 
+.. automodule:: dsutils
+   :members:
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:

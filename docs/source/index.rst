@@ -6,6 +6,12 @@
 Welcome to strappy's documentation!
 ===================================
 
+.. image:: ../../StrappyLogo.png
+
+Strappy is a package of data science utilities.
+I often find myself extracting chunks of code from one data science project for use in another.
+Rather than using an error-prone copy-paste approach, I bundle some of this code into the strappy package.
+
 .. automodule:: strappy
    :members:
 

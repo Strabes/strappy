@@ -39,8 +39,60 @@
             
   <div class="section" id="strappy-transformers-package">
 <h1>strappy.transformers package<a class="headerlink" href="#strappy-transformers-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-contents">
-<h2>Module contents<a class="headerlink" href="#module-contents" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-strappy.transformers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-strappy.transformers" title="Permalink to this headline">¶</a></h2>
+<p>Init transformers</p>
+<dl class="py class">
+<dt id="strappy.transformers.CumulativePercentThresholdBinner">
+<em class="property">class </em><code class="sig-prename descclassname">strappy.transformers.</code><code class="sig-name descname">CumulativePercentThresholdBinner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>None<span class="p">, </span>int<span class="p">, </span>str<span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">cum_percent</span><span class="o">=</span><span class="default_value">0.95</span></em>, <em class="sig-param"><span class="n">other_val</span><span class="o">=</span><span class="default_value">'_OTHER_'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.transformers.CumulativePercentThresholdBinner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">strappy.transformers._categorical_binners.CategoricalBinnerMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">feature_engine.encoding.base_encoder.BaseCategoricalTransformer</span></code></p>
+<dl class="py method">
+<dt id="strappy.transformers.CumulativePercentThresholdBinner.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.transformers.CumulativePercentThresholdBinner.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="strappy.transformers.MaxLevelBinner">
+<em class="property">class </em><code class="sig-prename descclassname">strappy.transformers.</code><code class="sig-name descname">MaxLevelBinner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>None<span class="p">, </span>int<span class="p">, </span>str<span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_levels</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">other_val</span><span class="o">=</span><span class="default_value">'_OTHER_'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.transformers.MaxLevelBinner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">strappy.transformers._categorical_binners.CategoricalBinnerMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">feature_engine.encoding.base_encoder.BaseCategoricalTransformer</span></code></p>
+<dl class="py method">
+<dt id="strappy.transformers.MaxLevelBinner.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pandas.core.series.Series<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.transformers.MaxLevelBinner.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>X</strong> (<em>pandas.DataFrame</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="strappy.transformers.PercentThresholdBinner">
+<em class="property">class </em><code class="sig-prename descclassname">strappy.transformers.</code><code class="sig-name descname">PercentThresholdBinner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">variables</span><span class="p">:</span> <span class="n">Union<span class="p">[</span>None<span class="p">, </span>int<span class="p">, </span>str<span class="p">, </span>List<span class="p">[</span>Union<span class="p">[</span>str<span class="p">, </span>int<span class="p">]</span><span class="p">]</span><span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em>, <em class="sig-param"><span class="n">percent_threshold</span><span class="o">=</span><span class="default_value">0.02</span></em>, <em class="sig-param"><span class="n">other_val</span><span class="o">=</span><span class="default_value">'_OTHER_'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.transformers.PercentThresholdBinner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">strappy.transformers._categorical_binners.CategoricalBinnerMixin</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">feature_engine.encoding.base_encoder.BaseCategoricalTransformer</span></code></p>
+<dl class="py method">
+<dt id="strappy.transformers.PercentThresholdBinner.fit">
+<code class="sig-name descname">fit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">X</span></em>, <em class="sig-param"><span class="n">y</span><span class="p">:</span> <span class="n">Optional<span class="p">[</span>pandas.core.series.Series<span class="p">]</span></span> <span class="o">=</span> <span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#strappy.transformers.PercentThresholdBinner.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit method</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>pandas.DataFrame</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -54,7 +106,7 @@
   <h3><a href="index.html">Table of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">strappy.transformers package</a><ul>
-<li><a class="reference internal" href="#module-contents">Module contents</a></li>
+<li><a class="reference internal" href="#module-strappy.transformers">Module contents</a></li>
 </ul>
 </li>
 </ul>

@@ -6,7 +6,7 @@
 Welcome to strappy's documentation!
 ===================================
 
-.. automodule:: dsutils
+.. automodule:: strappy
    :members:
 
 .. toctree::

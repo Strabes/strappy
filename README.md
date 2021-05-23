@@ -1,4 +1,4 @@
-# <img alt="strappy" src="Strappy Logo.png" height="250">
+# <img alt="strappy" src="StrappyLogo.png" height="250">
 
 ![Python package](https://github.com/Strabes/strappy/workflows/Python%20package/badge.svg?branch=master)
 [![codecov](https://codecov.io/gh/Strabes/strappy/branch/master/graph/badge.svg?token=I0JBFSYS3U)](https://codecov.io/gh/Strabes/strappy)

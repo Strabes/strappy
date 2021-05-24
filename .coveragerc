@@ -1,2 +1,2 @@
 [run]
-omit = transformers/_experimental/*
+omit = transformers/_experimental.py

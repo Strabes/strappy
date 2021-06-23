@@ -36,6 +36,8 @@ def cutpoints(
         'linear' : equally spaced cutpoints
         'log' : logarithmically spaced cutpoints
         'logp1' : logarithmically spaced cutpoints after adding 1
+        'root' : apply transform np.sign(x)*np.sqrt(abs(x)) and then
+            space points linearly
         'quantile' : cutpoints corresponding to equally spaced quantiles
 
     ncut : int
@@ -82,17 +84,28 @@ def cutpoints(
                 raise ValueError(msg)
             else:
                 c = 10**np.linspace(
-                    np.sign(ep[0])*math.log(abs(ep[0]),10),
-                    np.sign(ep[1])*math.log(abs(ep[1]),10),
+                    np.log10(ep[0]),
+                    np.log10(ep[1]),
                     num = ncuts
                     )
         elif cuts == 'logp1':
-            c = 10**np.linspace(
-                np.sign(ep[0])*math.log(abs(ep[0]) + 1,10),
-                np.sign(ep[1])*math.log(abs(ep[1]) + 1,10),
-                num = ncuts
+            if ep[0] <= -1:
+                msg = "Variable range includes zero when using 'log'" + \
+                      " - consider using 'root' instead"
+                raise ValueError(msg)
+            else:
+                c = 10**np.linspace(
+                    np.log10(ep[0] + 1),
+                    np.log10(ep[1] + 1),
+                    num = ncuts
+                    )
+                c = np.sort(np.unique(np.append(0,c)))
+        elif cuts ==  'root':
+            c = np.linspace(
+                np.sign(ep[0]) * np.sqrt(abs(ep[0])),
+                np.sign(ep[1]) * np.sqrt(abs(ep[1]))
                 )
-            c = np.sort(np.unique(np.append(0,c)))
+            c = np.sign(c) * c**2
         elif cuts == 'quantile':
             c = np.quantile(x,np.linspace(0,1,ncuts))
     else:
@@ -129,7 +142,7 @@ def human_readable_num(number, sig_fig=3, **kwargs):
     elif number == 0:
         z = '0'
     elif np.abs(number) < 1:
-        magnitude = int(math.floor(math.log(np.abs(number), 10)))
+        magnitude = int(np.floor(np.log10(abs(number))))
         # if |number| >= 0.01
         if magnitude >= -2:
             z = ('%.' + str(sig_fig - 1 - magnitude) + 'f') % (number)
@@ -383,17 +396,18 @@ def _remove_closest(x, y, exclude_endpoints=True, **kwargs):
 
     Parameters
     ----------
-
     x : 1-D numpy array
 
     y : 1-D numpy array
 
     exclude_endpoints : Boolean
+        default True
 
     Returns
     -------
-
-    numpy 1-D array : the elements of x after removing the values closest
+    x : numpy.array
+        numpy 1-D array, the elements of x after
+        removing the values closest
         to the elements of y
     """
     x = x.copy()
@@ -418,21 +432,19 @@ def _finalize_bins(x, pm, sig_fig=3, **kwargs):
 
     Parameters
     ----------
+    x : numpy.array
+        1-D array of preliminary bin endpoints
 
-    x : 1-D numpy array
-        Preliminary bin endpoints
-
-    pm : 1-D numpy array
-        Values with point masses
+    pm : numpy.array
+        1-D array of values with point masses
 
     sig_fig : int
         Number of significant figures to use
 
     Returns
     -------
-
-    b : 1-D numpy array
-        Finalizing bin endpoints
+    b : numpy.array
+        1-D array of finalizied bin endpoints
 
     bin_labels : list
         Final bin labels

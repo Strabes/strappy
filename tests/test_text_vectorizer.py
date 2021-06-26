@@ -39,6 +39,6 @@ def example_data():
     return df
 
 def test_text_vectorizer(example_data,correct_result):
-    vt = VectorizeText(params={'max_features':5})
+    vt = VectorizeText(max_features=5)
     vals = vt.fit_transform(example_data['x'])
     pd.testing.assert_frame_equal(vals,correct_result)  

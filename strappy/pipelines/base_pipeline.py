@@ -103,10 +103,10 @@ def name_tracker(p, X):
 
     # handle the text columns
     running_text_names = []
-    for t in p.transformers_[2:-1]:
+    for t in p.transformers_[2:]:
         try:
             v_name = t[2][0]
-            col_tfidf = t[1].vectorizer.get_feature_names()
+            col_tfidf = t[1].get_feature_names()
             col_tfidf_df = pd.DataFrame(
                 {"cols": [v_name + "_" + i for i in col_tfidf],
                  "cols_in": [v_name] * len(col_tfidf)})

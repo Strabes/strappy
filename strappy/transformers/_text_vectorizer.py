@@ -2,21 +2,16 @@
 Vectorize text field
 """
 
-from sklearn.base import BaseEstimator, TransformerMixin
+#from sklearn.base import BaseEstimator, TransformerMixin
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
 
-class VectorizeText(BaseEstimator, TransformerMixin):
+class VectorizeText(TfidfVectorizer):
     """
     Class for altering sklearn.feature_extraction.text.TfidfVectorizer
     so that its transform method will return a pandas.DataFrame
     """
-    def __init__(self, vectorizer = TfidfVectorizer(max_features=100), params : dict = None):
-        self.vectorizer = vectorizer
-        if params:
-            self.vectorizer.set_params(**params)
-
-    def fit(self, X, y = None):
+    def fit(self, X, y=None):
         """
         Fit method
 
@@ -30,10 +25,12 @@ class VectorizeText(BaseEstimator, TransformerMixin):
         -------
         self
         """
-        self.vectorizer = self.vectorizer.fit(X, y)
-        return self
-    
-    def transform(self, X):
+        if isinstance(X, pd.DataFrame):
+            X = X.iloc[:,0]
+        self.colname = X.name
+        return super(VectorizeText, self).fit(X, y)
+
+    def transform(self, X, y=None):
         """
         Transform method
 
@@ -45,9 +42,15 @@ class VectorizeText(BaseEstimator, TransformerMixin):
         -------
         res_df : pandas.DataFrame
         """
-        col = X.name
-        res = self.vectorizer.transform(X)
+        if isinstance(X, pd.DataFrame):
+            X = X.iloc[:,0]
+        res = super(VectorizeText,self).transform(X)
+        colname = self.colname
         res_df = pd.DataFrame(
             res.todense(),
-            columns = [col + "_" + i for i in self.vectorizer.get_feature_names()])
+            columns = [colname + "_" + i for i in self.get_feature_names()])
         return res_df
+
+    def fit_transform(self, X, y=None):
+        self.fit(X, y)
+        return self.transform(X, y)

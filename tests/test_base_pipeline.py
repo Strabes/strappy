@@ -17,4 +17,4 @@ def test_base_pipeline():
     res = pd.DataFrame(
         p.fit_transform(input),
         columns = name_tracker(p,input).final_cols)
-    assert res.equals(results)
+    pd.testing.assert_frame_equal(res,results)

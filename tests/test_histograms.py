@@ -6,7 +6,10 @@ pytest --mpl-generate-path=tests/baseline
 
 import pytest
 import pandas as pd
-from strappy.utils.histograms import numeric_histogram, categorical_histogram
+from strappy.utils.histograms import (
+    numeric_histogram,
+    categorical_histogram,
+    categorical_heatmap)
 
 @pytest.fixture
 def example_data():
@@ -15,7 +18,8 @@ def example_data():
         -0.23, 1, 2.3, 0, -0.5,
         2, 1.1 ]
     y = list('aaaaabbbccde')
-    df = pd.DataFrame({'x':x,'y':y})
+    z = list('abcdeabcabde')
+    df = pd.DataFrame({'x':x,'y':y,'z':z})
     return df
 
 @pytest.mark.mpl_image_compare
@@ -39,4 +43,13 @@ def test_categorical_histogram(example_data):
         line_columns='x',
         max_levels=3,
         normalize=True)
+    return nh
+
+
+@pytest.mark.mpl_image_compare
+def test_categorical_heatmap(example_data):
+    nh = categorical_heatmap(
+        example_data,
+        x='y',
+        y='z')
     return nh

@@ -25,25 +25,5 @@ def test_cramers_corrected_matrix(example_data):
         'x': [0.881917, 1.0, 0.0],
         'y': [0.0, 0.0, 1.0]},
         index=['z', 'x', 'y'])
-    res = cramers_corrected_matrix(df)
+    res = cramers_corrected_matrix(example_data)
     pd.testing.assert_frame_equal(res,ans)
-
-
-@pytest.mark.mpl_image_compare
-def test_categorical_histogram(example_data):
-    nh = categorical_histogram(
-        example_data,
-        x='y',
-        line_columns='x',
-        max_levels=3,
-        normalize=True)
-    return nh
-
-
-@pytest.mark.mpl_image_compare
-def test_categorical_heatmap(example_data):
-    nh = categorical_heatmap(
-        example_data,
-        x='y',
-        y='z')
-    return nh

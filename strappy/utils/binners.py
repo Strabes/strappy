@@ -248,7 +248,7 @@ def cutter(
         df.loc[~df[x].isin(pm),x].values,
         c_final,
         labels=bin_labels,
-        include_lowest=True)
+        include_lowest=True).astype(str)
 
     # Bring in point masses
     for i,v in enumerate(pm):

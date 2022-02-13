@@ -10,7 +10,7 @@ def list_reqs(fname='requirements.txt'):
 
 setuptools.setup(
     name="strappy",
-    version="0.0.4",
+    version="0.0.5",
     author="Greg Strabel",
     author_email="gregory.strabel@gmail.com",
     license="BSD 3",

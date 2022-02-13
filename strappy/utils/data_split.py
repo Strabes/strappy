@@ -14,22 +14,30 @@ def data_split(df:pd.DataFrame, train_size:float=0.8, test_size:float=0.1,
             split_col] = 'OOT'
 
     if strat_col:
-        v = df[lambda x: x[split_col].isnull(),strat_col].unique()
+        v = df.loc[lambda x: x[split_col].isnull(),strat_col].unique()
     else:
-        v = np.arange(df[lambda x: x[split_col].isnull(),:].shape[0])
+        v = np.array([i for i,j in enumerate(df[split_col].isnull()) if j])
+    
     np.random.seed(42)
     np.random.shuffle(v)
-    train_v = v[:int(train_size*len(v))]
-    test_v = v[int(train_size*len(v)):int((train_size+test_size)*len(v))]
-    val_v = v[int((train_size+test_size)*len(v)):]
+    train_v = np.array(v[:int(train_size*len(v))])
+    test_v = np.array(v[int(train_size*len(v)):int((train_size+test_size)*len(v))])
+    val_v = np.array(v[int((train_size+test_size)*len(v)):])
+
     if strat_col:
-        df.loc[lambda x: x[split_col].isnull() & x[strat_col] in train_v,split_col] = "TRAIN"
-        df.loc[lambda x: x[split_col].isnull() & x[strat_col] in test_v,split_col] = "TEST"
-        df.loc[lambda x: x[split_col].isnull() & x[strat_col] in val_v,split_col] = "VAL"
+        df.loc[lambda x: x.apply(
+            lambda x: pd.isnull(x[split_col]) and x[strat_col] in train_v, axis=1),
+            split_col] = "TRAIN"
+        df.loc[lambda x: x.apply(
+            lambda x: pd.isnull(x[split_col]) and x[strat_col] in test_v, axis=1),
+            split_col] = "TEST"
+        df.loc[lambda x: x.apply(
+            lambda x: pd.isnull(x[split_col]) and x[strat_col] in val_v, axis=1),
+            split_col] = "VAL"
     else:
-        df.loc[lambda x: x[split_col].isnull(),:].iloc[train_v,split_col] = "TRAIN"
-        df.loc[lambda x: x[split_col].isnull(),:].iloc[test_v,split_col] = "TEST"
-        df.loc[lambda x: x[split_col].isnull(),:].iloc[val_v,split_col] = "VAL"
+        df.iloc[train_v,lambda df: df.columns == split_col] = "TRAIN"
+        df.iloc[test_v,lambda df: df.columns == split_col] = "TEST"
+        df.iloc[val_v,lambda df: df.columns == split_col] = "VAL"
 
     return df
 

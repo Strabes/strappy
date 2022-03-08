@@ -3,7 +3,7 @@ Base pipeline constructs a pipeline of
 generic transformations for easy EDA
 """
 
-from typing import Union
+from typing import Union, Tuple, List
 import numpy as np
 import pandas as pd
 
@@ -55,7 +55,10 @@ def create_transformer_pipeline(params=None, text_cols : Union[None,list]=None):
     if text_cols is not None:
         pattern_exclude = "^" + "$|^".join(text_cols) + "$"
         for i, col in enumerate(text_cols):
-            p_text.append(("text_" + str(i), VectorizeText(), MakeColumnSelector(pattern=col)))
+            p_text.append(
+                ("text_" + str(i),
+                Pipeline([("text_" + str(i), VectorizeText())]),
+                MakeColumnSelector(pattern=col)))
     else:
         pattern_exclude = None
 
@@ -73,73 +76,50 @@ def create_transformer_pipeline(params=None, text_cols : Union[None,list]=None):
     return combined_pipe
 
 
-def name_tracker(p, X):
+def apply_pipeline(pipeline:Tuple[str,Pipeline,List[str]], df):
     """
-    
+    Apply the steps of a sklearn.pipeline.Pipeline
+    to a pandas.DataFrame
+
+    Parameters
+    ----------
+    pipeline : Tuple(str, sklearn.pipeline.Pipeline, List[str])
+
+    df : pandas.DataFrame
+
+    Returns
+    -------
+    pandas.DataFrame
     """
-    cols_in = X.columns.tolist()
-    df = pd.DataFrame({"cols":cols_in,"cols_in":cols_in})
+    if not isinstance(pipeline[1], Pipeline):
+        raise TypeError("`pipeline[1]` must be a sklearn.pipeline.Pipeline" +
+        f"but received {type(pipeline[1])}")
+    z = df.copy().loc[:,pipeline[2]]
+    for step in pipeline[1].steps:
+        z = step[1].transform(z)
+    return z
 
-    # indicators for missing numeric cols
-    add_missing_ind = p.transformers_[0][1]["add_missing_ind"]
-    try:
-        nan_num_ind = pd.DataFrame({
-            "cols":[i + "_na" for i in add_missing_ind.variables_],
-            "cols_in": add_missing_ind.variables_})
-        df = pd.concat([df, nan_num_ind])
-    except:
-        pass
+def transform_dataframe(col_transformer, df):
+    """
+    Transform a pandas.DataFrame using a sklearn.compose.ColumnTransformer
 
-    # onehot encoding of categorical columns
-    one = p.transformers_[1][1]["one_hot_encoder"]
-    try:
-        one_hot_encoder = pd.DataFrame(set().union(*[
-            [(k + "_" + i, k) for i in v]
-            for k,v in one.encoder_dict_.items()]),
-            columns = ["cols", "cols_in"])
-        df = pd.concat([df,one_hot_encoder])
-    except:
-        pass
+    Parameters
+    ----------
+    col_transformer : sklearn.compose.ColumnTransformer
 
-    # handle the text columns
-    running_text_names = []
-    for t in p.transformers_[2:]:
-        try:
-            v_name = t[2][0]
-            col_tfidf = t[1].get_feature_names()
-            col_tfidf_df = pd.DataFrame(
-                {"cols": [v_name + "_" + i for i in col_tfidf],
-                 "cols_in": [v_name] * len(col_tfidf)})
-            df = pd.concat([df,col_tfidf_df])
-            running_text_names += [v_name + "_" + i for i in col_tfidf]
-        except:
-            pass
+    df : pandas.DataFrame
 
-    numeric_preds = p.transformers_[0][2]
-    if len(numeric_preds) > 0:
-        final_num_cols = (p
-          .transformers_[0][1]
-          .transform(
-              X.head(1)[numeric_preds])
-          .columns.tolist())
-    else:
-        final_num_cols = []
-
-    object_preds = p.transformers_[1][2]
-    if len(object_preds) > 0:
-        final_obj_cols = (p
-          .transformers_[1][1]
-          .transform(X.head(1)[object_preds])
-          .columns.tolist())
-    else:
-        final_obj_cols = []
-
-    df_ = pd.DataFrame({"final_cols":
-      final_num_cols + final_obj_cols + running_text_names})
-
-    df = (pd.merge(
-           df_, df, left_on="final_cols",
-           right_on="cols")
-           .loc[:,["final_cols","cols_in"]])
-
-    return df
+    Returns
+    -------
+    pandas.DataFrame
+    """
+    if not isinstance(col_transformer, ColumnTransformer):
+        raise TypeError("`col_transformer` must be a sklearn.compose.ColumnTransformer" +
+        f"but received {type(col_transformer)}")
+    transformed = []
+    for pipeline in col_transformer.transformers_:
+        transformed.append(
+            (pipeline[0],
+             apply_pipeline(pipeline, df)))
+    transformed = pd.concat([t[1] for t in transformed], axis=1)
+    return transformed

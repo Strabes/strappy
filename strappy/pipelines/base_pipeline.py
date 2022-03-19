@@ -70,20 +70,22 @@ def create_transformer_pipeline(params=None, text_cols : Union[None,list]=None):
 
     combined_pipe = ColumnTransformer(transformers, remainder='drop')
 
+    combined_pipe = Pipeline([("base_pipeline", combined_pipe)])
+
     if params:
         combined_pipe.set_params(**params)
 
     return combined_pipe
 
 
-def apply_pipeline(pipeline:Tuple[str,Pipeline,List[str]], df):
+def apply_pipeline(pipeline:Pipeline, df):
     """
     Apply the steps of a sklearn.pipeline.Pipeline
     to a pandas.DataFrame
 
     Parameters
     ----------
-    pipeline : Tuple(str, sklearn.pipeline.Pipeline, List[str])
+    pipeline : sklearn.pipeline.Pipeline
 
     df : pandas.DataFrame
 
@@ -91,15 +93,15 @@ def apply_pipeline(pipeline:Tuple[str,Pipeline,List[str]], df):
     -------
     pandas.DataFrame
     """
-    if not isinstance(pipeline[1], Pipeline):
-        raise TypeError("`pipeline[1]` must be a sklearn.pipeline.Pipeline" +
-        f"but received {type(pipeline[1])}")
-    z = df.copy().loc[:,pipeline[2]]
-    for step in pipeline[1].steps:
+    if not isinstance(pipeline, Pipeline):
+        raise TypeError("`pipeline` must be a sklearn.pipeline.Pipeline" +
+        f"but received {type(pipeline)}")
+    z = df.copy()
+    for step in pipeline.steps:
         z = step[1].transform(z)
     return z
 
-def transform_dataframe(col_transformer, df):
+def apply_column_transformer(col_transformer, df):
     """
     Transform a pandas.DataFrame using a sklearn.compose.ColumnTransformer
 
@@ -117,9 +119,31 @@ def transform_dataframe(col_transformer, df):
         raise TypeError("`col_transformer` must be a sklearn.compose.ColumnTransformer" +
         f"but received {type(col_transformer)}")
     transformed = []
-    for pipeline in col_transformer.transformers_:
+    for t in col_transformer.transformers_:
         transformed.append(
-            (pipeline[0],
-             apply_pipeline(pipeline, df)))
+            (t[0],
+             apply_pipeline(t[1], df.loc[:,t[2]])))
     transformed = pd.concat([t[1] for t in transformed], axis=1)
     return transformed
+
+def transform_dataframe(pipeline, df):
+    """
+    Apply a Pipeline composed of other Pipelines and
+    ColumnTransformer to a pandas.DataFrame
+
+    Parameters
+    ----------
+    pipeline : sklearn.pipeline.Pipeline
+
+    df : pandas.DataFrame
+
+    Returns
+    -------
+    pandas.DataFrame
+    """
+    for s in pipeline.steps:
+        if isinstance(s[1], Pipeline):
+            df = apply_pipeline(s[1],df)
+        elif isinstance(s[1], ColumnTransformer):
+            df = apply_column_transformer(s[1],df)
+    return df

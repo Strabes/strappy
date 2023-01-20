@@ -135,7 +135,7 @@ def apply_column_transformer(col_transformer:ColumnTransformer, df:pd.DataFrame)
                  apply_pipeline(pipeline[1], df.loc[:,pipeline[2]])))
         except:
             pass
-    transformed = pd.concat([t[1] for t in transformed], axis=1)
+    transformed = pd.concat([t[1].reset_index(drop=True) for t in transformed], axis=1)
     return transformed
 
 def transform_dataframe(pipeline:Pipeline, df:pd.DataFrame):

@@ -180,7 +180,7 @@ def human_readable_num(number, sig_fig=3, **kwargs):
 
 def cutter(
     df, x, max_levels=20, point_mass_threshold=0.1,
-    sig_fig=3, **kwargs):
+    sig_fig=3, fillna="MISSING", **kwargs):
     """
     Cut a numeric variable into bins
 
@@ -201,6 +201,9 @@ def cutter(
 
     sig_fig : int
         Significant figures to use in binning
+
+    fillna : str
+        Value to fill NAs with
 
     Returns
     -------
@@ -259,9 +262,11 @@ def cutter(
     final_labels.sort()
 
     # Apply labels
-    z = pd.Categorical(
+    z = (pd.Categorical(
         df.loc[:,x + '_BINNED'].values,
         categories = final_labels)
+        .add_categories(fillna)
+        .fillna(fillna))
     return z
 
 

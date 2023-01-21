@@ -48,7 +48,7 @@ class VectorizeText(TfidfVectorizer):
         colname = self.colname
         res_df = pd.DataFrame(
             res.todense(),
-            columns = [colname + "_" + i for i in self.get_feature_names()])
+            columns = [colname + "_" + i for i in self.get_feature_names_out()])
         return res_df
 
     def fit_transform(self, X, y=None):

@@ -1,7 +1,6 @@
 import pytest
 import pandas as pd
 import numpy as np
-from distutils import dir_util
 import math
 
 from strappy.utils.binners import (
@@ -44,7 +43,8 @@ def example_data_binned():
         '05: (1, 2.98]'],
         categories = [
             '01: [-0.5, 0)', '02: 0', '03: (0, 1)',
-            '04: 1', '05: (1, 2.98]','06: (2.98, 3.1]'])
+            '04: 1', '05: (1, 2.98]','06: (2.98, 3.1]',
+            'MISSING'])
     return(c)    
 
 def test_cutter(example_data, example_data_binned):

@@ -3,7 +3,7 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 from strappy.pipelines.base_pipeline import (
     create_transformer_pipeline,
-    name_tracker
+    transform_dataframe
 )
 import pandas as pd
 import numpy as np
@@ -30,7 +30,9 @@ df = pd.DataFrame({
 
 p = create_transformer_pipeline(text_cols=['z','w'])
 
-res = pd.DataFrame(p.fit_transform(df), columns = name_tracker(p,df).final_cols)
+p = p.fit(df)
+
+res = transform_dataframe(p, df)
 
 df.to_pickle(dir_path + "/base_pipeline/input.pkl")
 res.to_pickle(dir_path + "/base_pipeline/results.pkl")

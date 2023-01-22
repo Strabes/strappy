@@ -253,6 +253,8 @@ def cutter(
         labels=bin_labels,
         include_lowest=True).astype(str)
 
+    print("binned values before point masses:")
+    print(df)
     # Bring in point masses
     for i,v in enumerate(pm):
         df.loc[df[x] == v,x + '_BINNED'] = pm_labels[i]

@@ -54,3 +54,6 @@ class VectorizeText(TfidfVectorizer):
     def fit_transform(self, X, y=None):
         self.fit(X, y)
         return self.transform(X, y)
+
+    def set_output(*args, **kwargs):
+        pass

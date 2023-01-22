@@ -22,7 +22,7 @@ copyright = '2021, Greg Strabel'
 author = 'Greg Strabel'
 
 # The full version, including alpha/beta/rc tags
-release = 'v0.0.4'
+release = '0.6.0'
 
 
 # -- General configuration ---------------------------------------------------

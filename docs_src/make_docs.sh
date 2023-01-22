@@ -2,4 +2,5 @@
 make clean
 sphinx-apidoc -o ./source ../strappy
 make html
-mv build/html/* ../docs/
+rm -R ../docs/*
+mv build/html ../docs/

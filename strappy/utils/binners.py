@@ -253,6 +253,10 @@ def cutter(
         labels=bin_labels,
         include_lowest=True).astype(str)
 
+    # try to fix issue with pandas.cut
+    eps = 10e-6
+    df.loc[lambda df: (df[x] >= c_final[0] - eps) & (df[x] <= c_final[0] + eps), x + "_BINNED"] = bin_labels[0]
+
     # Bring in point masses
     for i,v in enumerate(pm):
         df.loc[df[x] == v,x + '_BINNED'] = pm_labels[i]

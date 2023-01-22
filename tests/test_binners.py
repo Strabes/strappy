@@ -48,12 +48,14 @@ def example_data_binned():
     return(c)    
 
 def test_cutter(example_data, example_data_binned):
+    example_data = example_data.applymap(lambda x: round(x,2))
     x = pd.Series(cutter(example_data,'x',3))
     print(x)
     print(pd.Series(example_data_binned))
     assert x.equals(pd.Series(example_data_binned))
 
 def test_binner_df(example_data, example_data_binned):
+    example_data = example_data.applymap(lambda x: round(x,2))
     df = example_data.rename(columns = {'x':'xy'})
     z = df.join(pd.DataFrame(example_data_binned)).rename(columns = {0:'wz'})
     df = binner_df(df,'xy','wz',max_levels=3)

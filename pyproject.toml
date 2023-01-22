@@ -49,3 +49,4 @@ push            = false
 [tool.bumpver.file_patterns]
 "pyproject.toml" = ['current_version = "{version}"', 'version = "{version}"']
 "strappy/__init__.py" = ["{version}"]
+"docs_src/conf.py" = ["release = '{version}'"]

@@ -28,6 +28,7 @@ class VectorizeText(TfidfVectorizer):
         if isinstance(X, pd.DataFrame):
             X = X.iloc[:,0]
         self.colname = X.name
+        self.feature_names_in_ = [self.colname]
         return super(VectorizeText, self).fit(X, y)
 
     def transform(self, X, y=None):
@@ -48,12 +49,19 @@ class VectorizeText(TfidfVectorizer):
         colname = self.colname
         res_df = pd.DataFrame(
             res.todense(),
-            columns = [colname + "_" + i for i in self.get_feature_names_out()])
+            columns = [colname + "_" + i for i in super(VectorizeText,self).get_feature_names_out()])
         return res_df
 
     def fit_transform(self, X, y=None):
         self.fit(X, y)
         return self.transform(X, y)
+
+    def get_feature_names_out(self, input_features=None):
+        return [
+            self.colname +
+            "_" +
+            token
+            for token in super().get_feature_names_out(input_features)]
 
     def set_output(*args, **kwargs):
         pass
